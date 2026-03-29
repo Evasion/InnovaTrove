@@ -1,0 +1,25 @@
+/* hero.component.css */
+.hero {
+  height: 100vh;
+  background: linear-gradient(to right, #1e3c72, #2a5298),
+              url('/assets/hero-bg.jpg') center/cover no-repeat;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.hero-content p {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+}
+
+.buttons button {
+  margin: 0 10px;
+}
