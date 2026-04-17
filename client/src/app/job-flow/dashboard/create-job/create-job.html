@@ -1,0 +1,162 @@
+<div class="min-h-screen bg-slate-50 py-10 px-4">
+  <div class="max-w-xl mx-auto">
+
+    <!-- Header -->
+    <div class="mb-8">
+      <button mat-button (click)="goToJobs()" class="!text-slate-500 !pl-0 mb-2">
+        <mat-icon>arrow_back</mat-icon> All Jobs
+      </button>
+      <h1 class="text-2xl font-bold text-slate-900">Send Job Link</h1>
+      <p class="text-slate-500 text-sm mt-1">Enter the customer's details and we'll SMS them a secure link to review, sign, and pay.</p>
+    </div>
+
+    <!-- Success state -->
+    @if (createdJob()) {
+      <div class="bg-white rounded-2xl border border-emerald-200 shadow-sm p-8 text-center">
+        <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <mat-icon class="text-emerald-600 !text-3xl">check_circle</mat-icon>
+        </div>
+        <h2 class="text-xl font-bold text-slate-900 mb-2">Link Sent!</h2>
+        <p class="text-slate-500 text-sm mb-6">The customer has been sent an SMS with their booking link.</p>
+
+        <div class="bg-slate-50 rounded-xl p-4 mb-6 text-left">
+          <p class="text-xs text-slate-500 mb-1 font-medium uppercase tracking-wider">Job Link</p>
+          <p class="text-sm text-slate-700 break-all font-mono">{{ createdJob()!.jobUrl }}</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <button mat-raised-button color="primary" (click)="copyLink()">
+            <mat-icon>content_copy</mat-icon> Copy Link
+          </button>
+          <button mat-stroked-button (click)="createAnother()">
+            <mat-icon>add</mat-icon> New Job
+          </button>
+          <button mat-stroked-button (click)="goToJobs()">
+            <mat-icon>list</mat-icon> All Jobs
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Form -->
+    @if (!createdJob()) {
+      <form [formGroup]="form" (ngSubmit)="submit()" class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 space-y-5">
+
+        <!-- Customer Phone -->
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Customer Phone Number</mat-label>
+          <mat-icon matPrefix class="mr-2 text-slate-400">phone</mat-icon>
+          <input matInput formControlName="customerPhone"
+            placeholder="+1 555 555 5555 or 5555555555" type="tel"/>
+          @if (form.get('customerPhone')?.invalid && form.get('customerPhone')?.touched) {
+            <mat-error>Phone number is required.</mat-error>
+          }
+          <mat-hint>US numbers: enter 10 digits. International: include country code with +</mat-hint>
+        </mat-form-field>
+
+        <!-- Customer Name (optional) -->
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Customer Name (optional)</mat-label>
+          <mat-icon matPrefix class="mr-2 text-slate-400">person</mat-icon>
+          <input matInput formControlName="customerName" placeholder="Jane Smith"/>
+        </mat-form-field>
+
+        <!-- Service Description -->
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Service Description</mat-label>
+          <mat-icon matPrefix class="mr-2 text-slate-400">description</mat-icon>
+          <textarea matInput formControlName="serviceDescription"
+            placeholder="e.g. Full-stack web application — 3 pages, mobile responsive, MongoDB backend"
+            rows="3"></textarea>
+          @if (form.get('serviceDescription')?.invalid && form.get('serviceDescription')?.touched) {
+            <mat-error>Description is required (min 10 characters).</mat-error>
+          }
+        </mat-form-field>
+
+        <!-- Amounts row -->
+        <div class="grid grid-cols-2 gap-4">
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Total Price ($)</mat-label>
+            <mat-icon matPrefix class="mr-2 text-slate-400">attach_money</mat-icon>
+            <input matInput formControlName="totalAmount" type="number" min="1" step="0.01" placeholder="1500.00"/>
+            @if (form.get('totalAmount')?.invalid && form.get('totalAmount')?.touched) {
+              <mat-error>Enter a valid amount.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Deposit Amount ($)</mat-label>
+            <mat-icon matPrefix class="mr-2 text-slate-400">paid</mat-icon>
+            <input matInput formControlName="depositAmount" type="number" min="1" step="0.01" placeholder="500.00"/>
+            @if (form.get('depositAmount')?.invalid && form.get('depositAmount')?.touched) {
+              <mat-error>Enter a valid amount.</mat-error>
+            }
+          </mat-form-field>
+        </div>
+
+        @if (form.errors?.['depositExceedsTotal'] && form.get('depositAmount')?.touched) {
+          <p class="text-red-600 text-sm -mt-3">Deposit cannot exceed the total price.</p>
+        }
+
+        <!-- Time Slot (optional) -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-4">
+          <div>
+            <p class="text-sm font-medium text-slate-700 mb-1">Appointment Time Slot <span class="text-slate-400 font-normal">(optional)</span></p>
+            <p class="text-xs text-slate-500">If set, a no-show policy will be included in the customer's contract: deposit is forfeited if the customer is more than 15 minutes late.</p>
+          </div>
+
+          <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Appointment Date</mat-label>
+            <mat-icon matPrefix class="mr-2 text-slate-400">calendar_today</mat-icon>
+            <input matInput formControlName="scheduledDate" type="date"/>
+          </mat-form-field>
+
+          <div class="grid grid-cols-2 gap-4">
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>Start Time</mat-label>
+              <mat-icon matPrefix class="mr-2 text-slate-400">schedule</mat-icon>
+              <input matInput formControlName="timeSlotStart" type="time"/>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="w-full">
+              <mat-label>End Time</mat-label>
+              <mat-icon matPrefix class="mr-2 text-slate-400">schedule</mat-icon>
+              <input matInput formControlName="timeSlotEnd" type="time"/>
+            </mat-form-field>
+          </div>
+
+          @if (form.errors?.['timeSlotIncomplete'] && (form.get('timeSlotStart')?.touched || form.get('timeSlotEnd')?.touched)) {
+            <p class="text-red-600 text-xs">Both start and end time are required when setting a time slot.</p>
+          }
+        </div>
+
+        <!-- Owner consent -->
+        <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl">
+          <mat-checkbox formControlName="ownerConsentConfirmed" color="primary">
+            <span class="text-sm text-slate-700 leading-snug">
+              I confirm this customer has provided their phone number and consented
+              to receive SMS messages about their booking from us.
+            </span>
+          </mat-checkbox>
+          @if (form.get('ownerConsentConfirmed')?.invalid && form.get('ownerConsentConfirmed')?.touched) {
+            <p class="text-red-600 text-xs mt-2 ml-6">You must confirm customer consent before sending an SMS.</p>
+          }
+        </div>
+
+        <!-- Submit -->
+        <button mat-raised-button color="primary" type="submit" class="w-full !py-3 !h-auto !text-base"
+          [disabled]="loading()">
+          @if (loading()) {
+            <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
+            Sending...
+          } @else {
+            <mat-icon>send</mat-icon>
+            Send Link to Customer
+          }
+        </button>
+
+      </form>
+    }
+
+  </div>
+</div>

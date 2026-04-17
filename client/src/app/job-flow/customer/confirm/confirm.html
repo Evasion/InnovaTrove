@@ -1,0 +1,78 @@
+<div class="min-h-screen bg-slate-50 flex flex-col">
+
+  @if (loading()) {
+    <div class="flex-1 flex items-center justify-center"><mat-spinner diameter="40"></mat-spinner></div>
+  }
+
+  @if (!loading() && job() && provider()) {
+    <div class="h-1.5 w-full" [style.background-color]="provider()!.primaryColor"></div>
+
+    <div class="max-w-lg mx-auto w-full px-4 py-10 flex-1 flex flex-col gap-5">
+
+      <!-- Not yet confirmed -->
+      @if (!confirmed()) {
+        <div class="text-center mb-4">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <mat-icon class="text-blue-600 !text-3xl">build_circle</mat-icon>
+          </div>
+          <h1 class="text-xl font-bold text-slate-900 mb-2">Service Completed?</h1>
+          <p class="text-slate-500 text-sm">
+            {{ provider()!.name }} has marked your service as complete.<br>
+            Please confirm to receive your Zelle payment details.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 text-sm">
+          <p class="text-slate-600 mb-2"><strong>Service:</strong> {{ job()!.serviceDescription }}</p>
+          <p class="text-slate-600"><strong>Remaining balance:</strong>
+            {{ (job()!.totalAmount - job()!.depositAmount) | currency }}
+          </p>
+        </div>
+
+        <button mat-raised-button
+          (click)="confirm()"
+          [disabled]="confirming()"
+          class="!py-4 !h-auto !text-base w-full"
+          [style.background-color]="!confirming() ? provider()!.primaryColor : null"
+          [style.color]="!confirming() ? 'white' : null">
+          @if (confirming()) {
+            <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner> Confirming...
+          } @else {
+            <mat-icon>thumb_up</mat-icon> Yes, Service is Complete
+          }
+        </button>
+      }
+
+      <!-- Confirmed — show Zelle info -->
+      @if (confirmed()) {
+        <div class="text-center mb-4">
+          <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <mat-icon class="text-emerald-600 !text-3xl">check_circle</mat-icon>
+          </div>
+          <h1 class="text-xl font-bold text-slate-900 mb-2">Thank You!</h1>
+          <p class="text-slate-500 text-sm">Please send your final payment via Zelle.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-emerald-200 shadow-sm p-6">
+          <h2 class="font-semibold text-slate-800 mb-3 text-sm uppercase tracking-wider flex items-center gap-2">
+            <mat-icon class="!text-base text-emerald-600">payments</mat-icon>
+            Zelle Payment Details
+          </h2>
+          <div class="bg-emerald-50 rounded-xl p-4 text-sm text-emerald-900 leading-relaxed">
+            {{ zelleInfo() || job()!.serviceDescription }}
+          </div>
+          @if (remainingBalance()) {
+            <p class="text-center mt-4 text-lg font-bold text-slate-900">
+              Amount: ${{ remainingBalance() }}
+            </p>
+          }
+        </div>
+
+        <p class="text-center text-slate-400 text-xs">
+          A copy of these details was also sent to your phone via SMS.
+        </p>
+      }
+
+    </div>
+  }
+</div>

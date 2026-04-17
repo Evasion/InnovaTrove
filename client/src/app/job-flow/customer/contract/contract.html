@@ -1,0 +1,86 @@
+<div class="min-h-screen bg-slate-50 flex flex-col">
+
+  @if (loading()) {
+    <div class="flex-1 flex items-center justify-center"><mat-spinner diameter="40"></mat-spinner></div>
+  }
+
+  @if (!loading() && job() && provider()) {
+    <div class="h-1.5 w-full" [style.background-color]="provider()!.primaryColor"></div>
+
+    <div class="max-w-lg mx-auto w-full px-4 py-8 flex-1 flex flex-col gap-5">
+
+      <!-- Header -->
+      <div>
+        <button mat-button (click)="back()" class="!text-slate-500 !pl-0 mb-1 text-sm">
+          <mat-icon>arrow_back</mat-icon> Back
+        </button>
+        <h1 class="text-xl font-bold text-slate-900">Service Agreement</h1>
+        <p class="text-slate-500 text-sm">{{ provider()!.name }}</p>
+      </div>
+
+      <!-- Contract text -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+        <h2 class="font-semibold text-slate-800 mb-3 text-sm uppercase tracking-wider">Terms of Service</h2>
+        <div class="bg-slate-50 rounded-xl p-4 max-h-48 overflow-y-auto text-sm text-slate-600 leading-relaxed mb-4">
+          <p class="mb-2"><strong>Service:</strong> {{ job()!.serviceDescription }}</p>
+          <p class="mb-2"><strong>Total Price:</strong> ${{ job()!.totalAmount }}</p>
+          <p class="mb-3"><strong>Deposit:</strong> ${{ job()!.depositAmount }} (authorization hold — charged only on completion)</p>
+          @if (job()!.scheduledDate && job()!.timeSlotStart && job()!.timeSlotEnd) {
+            <div class="my-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+              <p class="font-semibold text-amber-800 text-xs uppercase tracking-wider mb-1">Scheduled Appointment</p>
+              <p class="text-amber-900">{{ job()!.scheduledDate | date:'EEEE, MMMM d, y' }} &bull; {{ job()!.timeSlotStart }} – {{ job()!.timeSlotEnd }}</p>
+            </div>
+          }
+          <p class="whitespace-pre-line">{{ provider()!.contractText }}</p>
+        </div>
+      </div>
+
+      <!-- Signature pad -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="font-semibold text-slate-800 text-sm">Your Signature</h2>
+          @if (hasSigned()) {
+            <button mat-button (click)="clearSignature()" class="!text-slate-400 text-xs">
+              <mat-icon class="!text-sm">refresh</mat-icon> Clear
+            </button>
+          }
+        </div>
+
+        <canvas #sigCanvas width="560" height="160"
+          class="w-full rounded-xl border-2 border-dashed border-slate-300 bg-white cursor-crosshair touch-none block">
+        </canvas>
+
+        @if (!hasSigned()) {
+          <p class="text-center text-slate-400 text-xs mt-2 pointer-events-none">
+            Sign above using your finger or mouse
+          </p>
+        }
+      </div>
+
+      <!-- Agreement checkbox -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm px-6 py-4">
+        <mat-checkbox [(ngModel)]="agreed" color="primary">
+          <span class="text-sm text-slate-700">
+            I have read and agree to the service terms above, and I authorise the deposit payment of
+            <strong>${{ job()!.depositAmount }}</strong>.
+          </span>
+        </mat-checkbox>
+      </div>
+
+      <!-- Submit -->
+      <button mat-raised-button
+        (click)="submit()"
+        [disabled]="submitting() || !hasSigned() || !agreed"
+        class="!py-4 !h-auto !text-base w-full"
+        [style.background-color]="(hasSigned() && agreed) ? provider()!.primaryColor : null"
+        [style.color]="(hasSigned() && agreed) ? 'white' : null">
+        @if (submitting()) {
+          <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner> Submitting...
+        } @else {
+          <mat-icon>draw</mat-icon> Sign & Continue to Payment
+        }
+      </button>
+
+    </div>
+  }
+</div>

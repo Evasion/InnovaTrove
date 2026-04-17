@@ -1,0 +1,144 @@
+<div class="min-h-screen bg-slate-50 flex flex-col">
+
+  @if (loading()) {
+    <div class="flex-1 flex items-center justify-center">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="flex-1 flex items-center justify-center p-6">
+      <div class="text-center max-w-sm">
+        <mat-icon class="!text-5xl text-slate-300 mb-4">link_off</mat-icon>
+        <h2 class="text-lg font-semibold text-slate-700 mb-2">Link Not Found</h2>
+        <p class="text-slate-500 text-sm">{{ error() }}</p>
+      </div>
+    </div>
+  }
+
+  @if (!loading() && !error() && job() && provider()) {
+    <!-- Provider header bar -->
+    <div class="h-1.5 w-full" [style.background-color]="provider()!.primaryColor"></div>
+
+    <div class="max-w-lg mx-auto w-full px-4 py-8 flex-1 flex flex-col gap-5">
+
+      <!-- Provider name / logo -->
+      <div class="flex items-center gap-3">
+        @if (provider()!.logoUrl) {
+          <img [src]="provider()!.logoUrl" alt="logo" class="h-8 object-contain"/>
+        } @else {
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white text-sm font-bold"
+            [style.background-color]="provider()!.primaryColor">
+            {{ provider()!.name.charAt(0) }}
+          </div>
+        }
+        <span class="font-semibold text-slate-700">{{ provider()!.name }}</span>
+      </div>
+
+      <!-- Status badge -->
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-100">
+          {{ statusLabel(job()!.status) }}
+        </span>
+        <span class="text-slate-400 text-xs font-mono">#{{ job()!.jobId }}</span>
+      </div>
+
+      <!-- Service card -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+        <h1 class="text-xl font-bold text-slate-900 mb-1">Your Service Booking</h1>
+        @if (job()!.customerName) {
+          <p class="text-slate-500 text-sm mb-4">Hi {{ job()!.customerName }},</p>
+        }
+
+        <div class="bg-slate-50 rounded-xl p-4 mb-5">
+          <p class="text-xs text-slate-500 uppercase tracking-wider font-medium mb-2">Service</p>
+          <p class="text-slate-800 text-sm leading-relaxed">{{ job()!.serviceDescription }}</p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-slate-50 rounded-xl p-4 text-center">
+            <p class="text-xs text-slate-500 mb-1">Deposit Due Now</p>
+            <p class="text-2xl font-bold text-slate-900">{{ job()!.depositAmount | currency }}</p>
+          </div>
+          <div class="bg-slate-50 rounded-xl p-4 text-center">
+            <p class="text-xs text-slate-500 mb-1">Total Price</p>
+            <p class="text-2xl font-bold text-slate-900">{{ job()!.totalAmount | currency }}</p>
+          </div>
+        </div>
+
+        @if (job()!.status === 'link_sent' || job()!.status === 'contract_signed') {
+          <div class="mt-4 p-3 bg-blue-50 rounded-lg text-xs text-blue-700 flex gap-2">
+            <mat-icon class="!text-base shrink-0">info</mat-icon>
+            <span>The remaining balance of <strong>{{ (job()!.totalAmount - job()!.depositAmount) | currency }}</strong> is due upon completion of the service.</span>
+          </div>
+        }
+      </div>
+
+      <!-- Step indicator -->
+      @if (job()!.status === 'link_sent' || job()!.status === 'contract_signed') {
+        <div class="flex items-center gap-2 text-xs text-slate-500">
+          <div class="flex items-center gap-1" [class.text-blue-600]="true" [class.font-semibold]="true">
+            <div class="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">1</div>
+            Review
+          </div>
+          <div class="flex-1 h-px bg-slate-200"></div>
+          <div class="flex items-center gap-1" [class.text-blue-600]="job()!.status !== 'link_sent'">
+            <div class="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold"
+              [class]="job()!.status !== 'link_sent' ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-500'">2</div>
+            Sign
+          </div>
+          <div class="flex-1 h-px bg-slate-200"></div>
+          <div class="flex items-center gap-1">
+            <div class="w-5 h-5 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px] font-bold">3</div>
+            Pay
+          </div>
+        </div>
+      }
+
+      <!-- SMS consent (shown only on first visit) -->
+      @if (job()!.status === 'link_sent') {
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+          <mat-checkbox
+            [checked]="smsConsentGiven()"
+            (change)="smsConsentGiven.set($event.checked)"
+            color="primary">
+            <span class="text-sm text-slate-700 leading-snug">
+              I agree to receive SMS text messages from <strong>{{ provider()!.name }}</strong>
+              about my booking — including reminders and payment updates.
+              Message frequency varies. Msg &amp; data rates may apply.
+              Reply <strong>STOP</strong> to opt out at any time.
+              <a routerLink="/sms-terms" target="_blank"
+                class="text-blue-600 underline hover:text-blue-800 ml-1">
+                SMS Terms
+              </a>
+            </span>
+          </mat-checkbox>
+        </div>
+      }
+
+      <!-- CTA -->
+      <button mat-raised-button
+        [disabled]="!ctaEnabled() || proceeding()"
+        (click)="proceed()"
+        class="!py-4 !h-auto !text-base w-full"
+        [style.background-color]="ctaEnabled() && !proceeding() ? provider()!.primaryColor : null"
+        [style.color]="ctaEnabled() && !proceeding() ? 'white' : null">
+        @if (proceeding()) {
+          <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
+        }
+        {{ ctaLabel() }}
+        @if (ctaEnabled() && !proceeding()) {
+          <mat-icon class="ml-2">arrow_forward</mat-icon>
+        }
+      </button>
+
+      @if (job()!.status === 'completed') {
+        <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-5 text-center">
+          <mat-icon class="text-emerald-500 !text-3xl mb-2">check_circle</mat-icon>
+          <p class="font-semibold text-emerald-800">Thank you! Your service is complete.</p>
+        </div>
+      }
+
+    </div>
+  }
+</div>
