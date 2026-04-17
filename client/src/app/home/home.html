@@ -1,11 +1,453 @@
-<!-- hero.component.html -->
-<section class="hero">
-  <div class="hero-content">
-    <h1>Build Something Amazing</h1>
-    <p>Your MEAN stack app starts here.</p>
-    <div class="buttons">
-      <button mat-raised-button color="primary">Get Started</button>
-      <button mat-stroked-button>Learn More</button>
+<!-- NAVBAR -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-slate-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+
+      <!-- Logo (Option 5 — Hexagon Stack) -->
+      <a href="#" class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="156" height="36" viewBox="0 0 260 60" aria-label="InnovaTrove">
+          <defs>
+            <linearGradient id="nav-hex" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#60a5fa"/>
+              <stop offset="100%" stop-color="#818cf8"/>
+            </linearGradient>
+          </defs>
+          <polygon points="19,11 35.5,20.5 35.5,39.5 19,49 2.5,39.5 2.5,20.5" fill="url(#nav-hex)"/>
+          <polygon points="37,11 53.5,20.5 53.5,39.5 37,49 20.5,39.5 20.5,20.5"
+            fill="none" stroke="url(#nav-hex)" stroke-width="2.5"/>
+          <rect x="13"  y="16"   width="12" height="3.5" rx="1.5" fill="white"/>
+          <rect x="17"  y="16"   width="4"  height="28"  rx="1.5" fill="white"/>
+          <rect x="13"  y="40.5" width="12" height="3.5" rx="1.5" fill="white"/>
+          <text x="66" y="38" font-size="23" font-weight="700" fill="#ffffff"
+            font-family="'Segoe UI', system-ui, sans-serif">Innova<tspan fill="#60a5fa">Trove</tspan></text>
+        </svg>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#services" class="text-slate-300 hover:text-white text-sm font-medium transition-colors">Services</a>
+        <a href="#work" class="text-slate-300 hover:text-white text-sm font-medium transition-colors">Our Work</a>
+        <a href="#process" class="text-slate-300 hover:text-white text-sm font-medium transition-colors">Process</a>
+        <a href="#testimonials" class="text-slate-300 hover:text-white text-sm font-medium transition-colors">Testimonials</a>
+      </div>
+
+      <!-- Desktop CTA -->
+      <div class="hidden md:flex items-center gap-3">
+        <button mat-stroked-button class="!text-slate-300 !border-slate-600">Contact Us</button>
+        <button mat-raised-button color="primary">Get a Quote</button>
+      </div>
+
+      <!-- Mobile Menu -->
+      <button mat-icon-button class="md:hidden !text-white" [matMenuTriggerFor]="mobileMenu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #mobileMenu="matMenu">
+        <a mat-menu-item href="#services">Services</a>
+        <a mat-menu-item href="#work">Our Work</a>
+        <a mat-menu-item href="#process">Process</a>
+        <a mat-menu-item href="#testimonials">Testimonials</a>
+        <mat-divider></mat-divider>
+        <a mat-menu-item href="#contact">Get a Quote</a>
+      </mat-menu>
+
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section class="relative min-h-screen flex items-center justify-center bg-slate-900 overflow-hidden pt-16">
+  <div class="hero-grid-pattern absolute inset-0"></div>
+  <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <!-- Badge -->
+    <div class="inline-flex items-center gap-2 bg-blue-500/10 border border-blue-500/30 rounded-full px-4 py-2 mb-8">
+      <mat-icon class="text-blue-400 !text-base !w-4 !h-4 !leading-none">rocket_launch</mat-icon>
+      <span class="text-blue-400 text-sm font-medium">Web Development Experts</span>
+    </div>
+
+    <!-- Headline -->
+    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+      We Build Digital Products<br>
+      <span class="hero-gradient-text">That Drive Results</span>
+    </h1>
+
+    <!-- Subheading -->
+    <p class="text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+      InnovaTrove specialises in crafting high-performance web applications and websites
+      that help businesses grow, scale, and succeed in the digital age.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+      <button mat-raised-button color="primary" class="!text-base !py-6 !px-8">
+        <mat-icon>arrow_forward</mat-icon>
+        Start Your Project
+      </button>
+      <button mat-stroked-button class="!text-slate-300 !border-slate-600 !text-base !py-6 !px-8">
+        <mat-icon>play_circle</mat-icon>
+        View Our Work
+      </button>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-3 gap-8 max-w-lg mx-auto border-t border-slate-800 pt-10">
+      <div>
+        <p class="text-4xl font-bold text-white">50+</p>
+        <p class="text-slate-500 text-sm mt-1">Projects Delivered</p>
+      </div>
+      <div>
+        <p class="text-4xl font-bold text-white">5+</p>
+        <p class="text-slate-500 text-sm mt-1">Years Experience</p>
+      </div>
+      <div>
+        <p class="text-4xl font-bold text-white">100%</p>
+        <p class="text-slate-500 text-sm mt-1">Client Satisfaction</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+    <mat-icon class="text-slate-600">keyboard_arrow_down</mat-icon>
+  </div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section id="services" class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-blue-600 text-sm font-semibold uppercase tracking-widest">What We Do</span>
+      <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-4">Our Services</h2>
+      <p class="text-slate-500 text-lg max-w-xl mx-auto">
+        From concept to deployment, we deliver end-to-end technology solutions tailored to your business needs.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <mat-card class="!rounded-2xl hover:shadow-xl transition-shadow duration-300 service-card group">
+        <mat-card-content>
+          <div class="p-6">
+            <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors duration-300">
+              <mat-icon class="text-blue-600 group-hover:!text-white transition-colors duration-300">web</mat-icon>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-3">Web Applications</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Scalable, high-performance web applications built with modern frameworks and best practices.</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="!rounded-2xl hover:shadow-xl transition-shadow duration-300 service-card group">
+        <mat-card-content>
+          <div class="p-6">
+            <div class="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-600 transition-colors duration-300">
+              <mat-icon class="text-purple-600 group-hover:!text-white transition-colors duration-300">language</mat-icon>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-3">Website Development</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Professional, responsive websites that convert visitors into customers and grow your brand online.</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="!rounded-2xl hover:shadow-xl transition-shadow duration-300 service-card group">
+        <mat-card-content>
+          <div class="p-6">
+            <div class="w-14 h-14 bg-cyan-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-cyan-600 transition-colors duration-300">
+              <mat-icon class="text-cyan-600 group-hover:!text-white transition-colors duration-300">design_services</mat-icon>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-3">UI/UX Design</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Beautiful, intuitive interfaces designed with your users in mind for maximum engagement and conversion.</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="!rounded-2xl hover:shadow-xl transition-shadow duration-300 service-card group">
+        <mat-card-content>
+          <div class="p-6">
+            <div class="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-orange-600 transition-colors duration-300">
+              <mat-icon class="text-orange-600 group-hover:!text-white transition-colors duration-300">settings_suggest</mat-icon>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-3">Tech Consulting</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">Strategic technology guidance to help you make the right decisions and stay ahead of the curve.</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
     </div>
   </div>
 </section>
+
+<!-- PROCESS SECTION -->
+<section id="process" class="py-24 bg-slate-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-blue-400 text-sm font-semibold uppercase tracking-widest">How We Work</span>
+      <h2 class="text-4xl font-bold text-white mt-3 mb-4">Our Process</h2>
+      <p class="text-slate-400 text-lg max-w-xl mx-auto">A proven, streamlined process that delivers results on time and within budget.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div class="text-center">
+        <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <span class="text-white text-2xl font-bold">01</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Discover</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">We start by understanding your business goals, target audience, and technical requirements in depth.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <span class="text-white text-2xl font-bold">02</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Design & Build</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Our team designs and develops your solution with regular check-ins and milestone reviews throughout.</p>
+      </div>
+      <div class="text-center">
+        <div class="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <span class="text-white text-2xl font-bold">03</span>
+        </div>
+        <h3 class="text-xl font-bold text-white mb-3">Launch & Support</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">We deploy your project, ensure everything runs smoothly, and provide ongoing support and maintenance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURED WORK -->
+<section id="work" class="py-24 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-blue-600 text-sm font-semibold uppercase tracking-widest">Portfolio</span>
+      <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-4">Featured Work</h2>
+      <p class="text-slate-500 text-lg max-w-xl mx-auto">A selection of recent projects we've delivered for our clients.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <mat-card class="!rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300">
+        <div class="h-48 bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center">
+          <mat-icon class="!text-[64px] !w-16 !h-16 text-white/30">shopping_cart</mat-icon>
+        </div>
+        <mat-card-content>
+          <div class="p-6">
+            <div class="flex gap-2 mb-3 flex-wrap">
+              <span class="tech-tag bg-blue-50 text-blue-600">Angular</span>
+              <span class="tech-tag bg-blue-50 text-blue-600">Node.js</span>
+              <span class="tech-tag bg-blue-50 text-blue-600">MongoDB</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">E-Commerce Platform</h3>
+            <p class="text-slate-500 text-sm">Full-featured online store with real-time inventory, payments, and an analytics dashboard.</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="!rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300">
+        <div class="h-48 bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center">
+          <mat-icon class="!text-[64px] !w-16 !h-16 text-white/30">dashboard</mat-icon>
+        </div>
+        <mat-card-content>
+          <div class="p-6">
+            <div class="flex gap-2 mb-3 flex-wrap">
+              <span class="tech-tag bg-purple-50 text-purple-600">React</span>
+              <span class="tech-tag bg-purple-50 text-purple-600">Express</span>
+              <span class="tech-tag bg-purple-50 text-purple-600">PostgreSQL</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">SaaS Dashboard</h3>
+            <p class="text-slate-500 text-sm">Multi-tenant analytics platform with real-time data visualisation and reporting.</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="!rounded-2xl overflow-hidden hover:shadow-xl transition-shadow duration-300">
+        <div class="h-48 bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+          <mat-icon class="!text-[64px] !w-16 !h-16 text-white/30">local_hospital</mat-icon>
+        </div>
+        <mat-card-content>
+          <div class="p-6">
+            <div class="flex gap-2 mb-3 flex-wrap">
+              <span class="tech-tag bg-orange-50 text-orange-600">Vue.js</span>
+              <span class="tech-tag bg-orange-50 text-orange-600">Python</span>
+              <span class="tech-tag bg-orange-50 text-orange-600">MySQL</span>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Healthcare Portal</h3>
+            <p class="text-slate-500 text-sm">Patient management system with appointment scheduling and telehealth integration.</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+
+    <div class="text-center mt-12">
+      <button mat-stroked-button color="primary" class="!px-8">View All Projects</button>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16">
+      <span class="text-blue-600 text-sm font-semibold uppercase tracking-widest">Client Feedback</span>
+      <h2 class="text-4xl font-bold text-slate-900 mt-3 mb-4">What Our Clients Say</h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <mat-card class="!rounded-2xl">
+        <mat-card-content>
+          <div class="p-4">
+            <div class="flex gap-1 mb-4">
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+            </div>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">"InnovaTrove delivered our platform on time and beyond our expectations. Their technical expertise and communication throughout the project was outstanding."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0">JS</div>
+              <div>
+                <p class="font-semibold text-slate-900 text-sm">James Smith</p>
+                <p class="text-slate-500 text-xs">CEO, RetailTech Ltd</p>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="!rounded-2xl">
+        <mat-card-content>
+          <div class="p-4">
+            <div class="flex gap-1 mb-4">
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+            </div>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">"The team at InnovaTrove completely transformed our online presence. Our new website has driven a 40% increase in leads since launch."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0">SA</div>
+              <div>
+                <p class="font-semibold text-slate-900 text-sm">Sarah Adeyemi</p>
+                <p class="text-slate-500 text-xs">Marketing Director, GrowthCo</p>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="!rounded-2xl">
+        <mat-card-content>
+          <div class="p-4">
+            <div class="flex gap-1 mb-4">
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+              <mat-icon class="!text-lg text-yellow-400">star</mat-icon>
+            </div>
+            <p class="text-slate-600 text-sm leading-relaxed mb-6">"Professional, responsive, and incredibly talented. InnovaTrove built our healthcare portal and continues to support us with new features every sprint."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-cyan-600 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0">MO</div>
+              <div>
+                <p class="font-semibold text-slate-900 text-sm">Michael Okafor</p>
+                <p class="text-slate-500 text-xs">CTO, MedConnect</p>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section id="contact" class="py-24 bg-gradient-to-r from-blue-600 to-cyan-600">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h2 class="text-4xl sm:text-5xl font-bold text-white mb-6">Ready to Build Something Great?</h2>
+    <p class="text-blue-100 text-lg mb-10 max-w-xl mx-auto">Let's discuss your project and see how InnovaTrove can help you achieve your digital goals.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <button mat-raised-button class="!bg-white !text-blue-600 !font-semibold !text-base !py-6 !px-8">
+        <mat-icon>email</mat-icon>
+        Get in Touch
+      </button>
+      <button mat-stroked-button class="!text-white !border-white !text-base !py-6 !px-8">
+        <mat-icon>calendar_today</mat-icon>
+        Book a Call
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="bg-slate-950 text-slate-400 py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+
+      <!-- Brand -->
+      <div class="md:col-span-2">
+        <a href="#" class="flex items-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="156" height="36" viewBox="0 0 260 60" aria-label="InnovaTrove">
+            <defs>
+              <linearGradient id="footer-hex" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#60a5fa"/>
+                <stop offset="100%" stop-color="#818cf8"/>
+              </linearGradient>
+            </defs>
+            <polygon points="19,11 35.5,20.5 35.5,39.5 19,49 2.5,39.5 2.5,20.5" fill="url(#footer-hex)"/>
+            <polygon points="37,11 53.5,20.5 53.5,39.5 37,49 20.5,39.5 20.5,20.5"
+              fill="none" stroke="url(#footer-hex)" stroke-width="2.5"/>
+            <rect x="13"  y="16"   width="12" height="3.5" rx="1.5" fill="white"/>
+            <rect x="17"  y="16"   width="4"  height="28"  rx="1.5" fill="white"/>
+            <rect x="13"  y="40.5" width="12" height="3.5" rx="1.5" fill="white"/>
+            <text x="66" y="38" font-size="23" font-weight="700" fill="#ffffff"
+              font-family="'Segoe UI', system-ui, sans-serif">Innova<tspan fill="#60a5fa">Trove</tspan></text>
+          </svg>
+        </a>
+        <p class="text-sm leading-relaxed max-w-xs">We specialise in web application development, website development, and technology consulting — helping businesses thrive in the digital world.</p>
+        <div class="flex gap-2 mt-6">
+          <button mat-icon-button class="!text-slate-400 hover:!text-white">
+            <mat-icon>link</mat-icon>
+          </button>
+          <button mat-icon-button class="!text-slate-400 hover:!text-white">
+            <mat-icon>alternate_email</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div>
+        <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Services</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#services" class="hover:text-white transition-colors">Web Applications</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors">Website Development</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors">UI/UX Design</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors">Tech Consulting</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div>
+        <h4 class="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Company</h4>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+          <li><a href="#work" class="hover:text-white transition-colors">Our Work</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+          <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm">
+      <p>&copy; 2026 InnovaTrove. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>

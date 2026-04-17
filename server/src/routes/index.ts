@@ -1,10 +1,14 @@
 import { Router } from "express";
+import jobRoutes from "./jobs";
+import webhookRoutes from "./webhooks";
 
 const router = Router();
 
-// Example route (you can add more, or keep empty)
-router.get("/", (req, res) => {
-  res.json({ message: "API root is working." });
+router.get("/", (_req, res) => {
+  res.json({ message: "API is running." });
 });
+
+router.use("/jobs", jobRoutes);
+router.use("/webhooks", webhookRoutes);
 
 export default router;
