@@ -1,4 +1,10 @@
 {
+  "name": "innovatrove",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd ${SERVICE_DIR:-server} && npm ci && npm run build",
+    "start": "cd ${SERVICE_DIR:-server} && npm start"
+  },
   "devDependencies": {
     "tsx": "^4.21.0"
   }
