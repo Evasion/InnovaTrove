@@ -16,9 +16,9 @@ export async function stripeWebhook(req: Request, res: Response): Promise<void> 
     return;
   }
 
-  let event: Stripe.Event;
+  const stripe = new Stripe(stripeKey);
+  let event: ReturnType<typeof stripe.webhooks.constructEvent>;
   try {
-    const stripe = new Stripe(stripeKey);
     event = stripe.webhooks.constructEvent(req.body as Buffer, sig, webhookSecret);
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
@@ -28,14 +28,13 @@ export async function stripeWebhook(req: Request, res: Response): Promise<void> 
   }
 
   if (event.type === "checkout.session.completed") {
-    const session = event.data.object as Stripe.Checkout.Session;
+    // TypeScript narrows event.data.object to Checkout.Session via discriminated union
+    const session = event.data.object;
     const jobId = session.metadata?.jobId;
 
     if (jobId) {
-      const paymentIntentId =
-        typeof session.payment_intent === "string"
-          ? session.payment_intent
-          : (session.payment_intent as Stripe.PaymentIntent | null)?.id;
+      const pi = session.payment_intent;
+      const paymentIntentId = typeof pi === "string" ? pi : (pi as { id?: string } | null)?.id;
 
       await Job.findOneAndUpdate(
         { jobId },
