@@ -2,8 +2,8 @@
 nixPkgs = ["nodejs_23"]
 
 [phases.install]
-# This ensures native binaries for Linux are downloaded
-cmds = ["npm install --platform=linux --arch=x64"]
+# Force removal of any existing node_modules before installing
+cmds = ["rm -rf node_modules", "npm install --include=optional"]
 
 [phases.build]
 cmds = ["npm run build"]
